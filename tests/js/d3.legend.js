@@ -36,7 +36,6 @@ d3.legend = function(g) {
 		.attr("class",function(d){return "lengend"+d.key})
         .text(function(d) { ;return d.key})
 		.style("fill",function(d) { console.log(d.value.color);console.log(d.key);return d.value.color})
-		//.on("click",function(d){ console.log(d.key)}) 
 		.on("click",function(d){ 
 			console.log("."+d.key+"line");
 			console.log(d3.select("."+d.key+"line").attr("visibility"));
@@ -56,13 +55,6 @@ d3.legend = function(g) {
 			d3.select("."+d.key+"line");
 			d3.select("."+d.key+"line")[0][0].parentNode.appendChild(d3.select("."+d.key+"line")[0][0]);
 			console.log(d3.select("."+d.key+"line")[0][0]);
-			
-			/*function(){
-				console.log(this);
-				this.parentNode.appendChild(this);
-			});*/
-		//	d3.select("graph").appendChild(d3.select("."+d.key+"line"));
-			
 		})
     	.on("mouseout", function(d){
 			d3.select("."+d.key+"line").style("stroke-width",1.5);
@@ -96,13 +88,6 @@ d3.legend = function(g) {
 				d3.select("."+d.key+"line");
 				d3.select("."+d.key+"line")[0][0].parentNode.appendChild(d3.select("."+d.key+"line")[0][0]);
 				console.log(d3.select("."+d.key+"line"));
-
-				/*function(){
-					console.log(this);
-					this.parentNode.appendChild(this);
-				});*/
-			//	d3.select("graph").appendChild(d3.select("."+d.key+"line"));
-
 			})
 	    	.on("mouseout", function(d){
 				d3.select("."+d.key+"line").style("stroke-width",1.5);

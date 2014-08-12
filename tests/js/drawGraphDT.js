@@ -180,27 +180,17 @@ function showGraphDT(dataFull, graphType) {
         var x  = d3.scale.linear().domain([0, timetrans(dataFull[0].data[dataFull[0].data.length-1])]).range([0, w]);
 		var x2 = d3.scale.linear().domain(x.domain()).range([0,w]);
 
-        // Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
         var y = d3.scale.linear().domain([0, 1]).range([h, 0]);
 		var y2= d3.scale.linear().domain(y.domain()).range([h2,0]);
-        // automatically determining max range can work something like this
         // var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
 
-        // create a line function that can convert data[] into x and y points
         var line = d3.svg.line()
 					.defined(function(d) { return d!=null; }) //To remove null entries (will look like gaps in the line)
 					//.interpolate('cardinal')
-            // assign the X function to plot our line as we wish
             .x(function (d, i) {
-                // verbose logging to show what's actually being done
-                //console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
-                // return the X coordinate where we want to plot this datapoint
                 return x(timetrans(dataFull[0].data[i]));
             })
             .y(function (d) {
-                // verbose logging to show what's actually being done
-                //console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
-                // return the Y coordinate where we want to plot this datapoint
                 return y(d);
             });
 		
@@ -213,8 +203,6 @@ function showGraphDT(dataFull, graphType) {
             return y2(d);
         });
 
-
-        // Add an SVG element with the desired dimensions and margin.
 		d3.select("svg").remove();
 		
         var svgContainer = d3.select("#graph").append("svg:svg")
@@ -238,33 +226,14 @@ function showGraphDT(dataFull, graphType) {
         // create yAxis
         var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true).tickFormat(function(d){return d+"s"});
 		var xAxis2= d3.svg.axis().scale(x2).tickSize(-h).tickSubdivide(true).tickFormat(function(d){return d+"s"});
-	
-	
+		
 		function brushed() {
 		  x.domain(brush.empty() ? x2.domain() : brush.extent());
-			//console.log(brush.empty());
-			//console.log(x.domain());
 			graph.select(".x.axis").call(xAxis);
-//		  graph.selectAll(".path").attr("d", area);
-/*		  graph.selectAll(".path").call(function(d,i){
-			console.log(d);
-			d.attr("d",line(dataFull[i]));
-		});*/
 			for (var pos = 1; pos <= 7; pos++) {
 			graph.select("#path"+pos).attr("d",line(dataFull[pos].data));
 			}
-		//	console.log("xaxis");
-	//		console.log(graph.select(".x axis"));
-	//	  graph.select(".x axis").call(function(d){
-//			graph.selectAll(".tick").remove();
-	//		console.log(d);
-		//	xAxis.ticks(5).tickSize(-h).tickSubdivide(true).tickFormat(function(d){return d+"s"});
-		//	});
-	//	console.log(graph.select(".x axis"));
 		}
-	
-	
-	
 		
 		var brush = d3.svg.brush()
 		    .x(x2)
@@ -285,15 +254,7 @@ function showGraphDT(dataFull, graphType) {
             .attr("transform", "translate(-25,0)")
             .call(yAxisLeft);
 
-        // Add the line by appending an svg:path element with the data line we created above
-        // do this AFTER the axes above so that the line is above the tick-lines
-
 		var colorMap = d3.scale.category10();
-		
-		
-		
-		
-		
 		
 		function lineMouseover() {
 		    d3.select(this)
@@ -313,7 +274,6 @@ function showGraphDT(dataFull, graphType) {
 		
         for (var pos = 1; pos <= 7; pos++) {
             graph.append("svg:path").attr("id", "path"+pos)
-//			.attr("class","graphPath")
 			.attr("d", line(dataFull[pos].data))
 			.attr("data-legend",dataFull[pos].name.charAt(0).toUpperCase()+dataFull[pos].name.slice(1))
 			.attr("stroke",colorMap(dataFull[pos].name.charAt(0).toUpperCase()+dataFull[pos].name.slice(1)))
