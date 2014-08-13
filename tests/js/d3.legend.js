@@ -1,6 +1,7 @@
 // d3.legend.js 
 // (C) 2012 ziggy.jonsson.nyc@gmail.com
 // MIT licence
+//Modified by Gil Kogan (gil@crowdemotion.co.uk)
 
 (function() {
 d3.legend = function(g) {
@@ -25,7 +26,26 @@ d3.legend = function(g) {
 
     items = d3.entries(items).sort(function(a,b) { return a.value.pos-b.value.pos})
 
- 
+
+	function legendClick(d){ 
+		if(d3.select("."+d.key+"line").attr("visibility")=="visible"){
+			d3.selectAll("."+d.key+"line").attr("visibility","hidden");
+			d3.selectAll(".lengend"+d.key).style("fill","grey");
+		}
+		else if(d3.select("."+d.key+"line").attr("visibility")=="hidden"){
+			d3.selectAll("."+d.key+"line").attr("visibility","visible");
+			d3.selectAll(".lengend"+d.key).style("fill",d.value.color);
+		}		
+	}
+
+	function legendMouseover(d){
+		d3.select("."+d.key+"line").style("stroke-width",5);
+		d3.select("."+d.key+"line")[0][0].parentNode.appendChild(d3.select("."+d.key+"line")[0][0]);
+	}
+	
+	function legendMouseout(d){
+		d3.select("."+d.key+"line").style("stroke-width",1.5);
+	}
 		
     li.selectAll("text")
         .data(items,function(d) { return d.key})
@@ -36,29 +56,9 @@ d3.legend = function(g) {
 		.attr("class",function(d){return "lengend"+d.key})
         .text(function(d) { ;return d.key})
 		.style("fill",function(d) { console.log(d.value.color);console.log(d.key);return d.value.color})
-		.on("click",function(d){ 
-			console.log("."+d.key+"line");
-			console.log(d3.select("."+d.key+"line").attr("visibility"));
-			if(d3.select("."+d.key+"line").attr("visibility")=="visible"){
-				d3.selectAll("."+d.key+"line").attr("visibility","hidden");
-				d3.selectAll(".lengend"+d.key).style("fill","grey");
-			}
-			else if(d3.select("."+d.key+"line").attr("visibility")=="hidden"){
-				d3.selectAll("."+d.key+"line").attr("visibility","visible");
-				d3.selectAll(".lengend"+d.key).style("fill",d.value.color);
-			}
-			
-			})
-		.on("mouseover",function(d){
-			d3.select("."+d.key+"line").style("stroke-width",5);
-			console.log(d3.select("."+d.key+"line").parentNode);
-			d3.select("."+d.key+"line");
-			d3.select("."+d.key+"line")[0][0].parentNode.appendChild(d3.select("."+d.key+"line")[0][0]);
-			console.log(d3.select("."+d.key+"line")[0][0]);
-		})
-    	.on("mouseout", function(d){
-			d3.select("."+d.key+"line").style("stroke-width",1.5);
-		})	
+		.on("click",legendClick)
+		.on("mouseover",legendMouseover)
+    	.on("mouseout", legendMouseout)	
 		
     li.selectAll("circle")
         .data(items,function(d) { return d.key})
@@ -69,29 +69,9 @@ d3.legend = function(g) {
         .attr("r","0.4em")
         .style("fill",function(d) { console.log(d.value.color);return d.value.color})
   		.attr("class",function(d){return "lengend"+d.key})
-		.on("click",function(d){ 
-			console.log("."+d.key+"line");
-			console.log(d3.select("."+d.key+"line").attr("visibility"));
-			if(d3.select("."+d.key+"line").attr("visibility")=="visible"){
-				d3.selectAll("."+d.key+"line").attr("visibility","hidden");
-				d3.selectAll(".lengend"+d.key).style("fill","grey");
-			}
-			else if(d3.select("."+d.key+"line").attr("visibility")=="hidden"){
-				d3.selectAll("."+d.key+"line").attr("visibility","visible");
-				d3.selectAll(".lengend"+d.key).style("fill",d.value.color);
-			}
-			
-			})
-			.on("mouseover",function(d){
-				d3.select("."+d.key+"line").style("stroke-width",5);
-				console.log(d3.select("."+d.key+"line").parentNode);
-				d3.select("."+d.key+"line");
-				d3.select("."+d.key+"line")[0][0].parentNode.appendChild(d3.select("."+d.key+"line")[0][0]);
-				console.log(d3.select("."+d.key+"line"));
-			})
-	    	.on("mouseout", function(d){
-				d3.select("."+d.key+"line").style("stroke-width",1.5);
-			})
+		.on("click",legendClick)
+		.on("mouseover",legendMouseover)
+	    .on("mouseout", legendMouseout)
     
     // Reposition and resize the box
     var lbbox = li[0][0].getBBox()  
