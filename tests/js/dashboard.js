@@ -154,7 +154,7 @@
             ce_log('READ TIME SERIES');
             writeInfo('Download timeseries data', false)
             loading();
-            ceclient.readTimeseries(responseId, [1, 3, 4, 5, 6, 7, 8], execGraph, true);
+            ceclient.readTimeseries(responseId, [1, 3, 4, 5, 6, 7, 8], execGraph, false);
         };
 
         var execGraph = function(dataApi){
