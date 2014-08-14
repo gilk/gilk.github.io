@@ -18,6 +18,8 @@ d3.legend = function(g) {
 
     svg.selectAll("[data-legend]").each(function() {
         var self = d3.select(this)
+		console.log("datalegend pos"+ self.attr("data-legend-pos"));
+		console.log(self)
         items[self.attr("data-legend")] = {
           pos : self.attr("data-legend-pos") || this.getBBox().y,
           color : self.attr("data-legend-color") != undefined ? self.attr("data-legend-color") : self.style("fill") != 'none' ? self.style("fill") : self.style("stroke") 

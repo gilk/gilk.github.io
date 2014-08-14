@@ -172,18 +172,56 @@ function showGraphDT(dataFull, graphType) {
  		var h2 = 500 - m2[0] - m2[2]; // height
 
         var data = dataFull[1].data;
-
+		
 		function timetrans(timestamp){
 			return timestamp / 1000.0;
 			}
 
-        var x  = d3.scale.linear().domain([0, timetrans(dataFull[0].data[dataFull[0].data.length-1])]).range([0, w]);
+			var ymina = [];
+			var ymaxa = [];
+			for(var pos = 1; pos <= dataFull.length-1; pos++){
+					ymina.push(d3.min(dataFull[pos].data));
+					ymaxa.push(d3.max(dataFull[pos].data));
+			}
+			if (ymina.length) 
+				{
+					ymina=d3.min(ymina);
+					ymaxa=d3.max(ymaxa);
+				}
+			else{
+				ymina=0;
+				ymaxa=1;
+			}
+  
+      var x  = d3.scale.linear().domain([0, timetrans(dataFull[0].data[dataFull[0].data.length-1])]).range([0, w]);
 		var x2 = d3.scale.linear().domain(x.domain()).range([0,w]);
-
-        var y = d3.scale.linear().domain([0, 1]).range([h, 0]);
+		
+		
+        var y = d3.scale.linear().domain([ymina, ymaxa]).range([h, 0]);
 		var y2= d3.scale.linear().domain(y.domain()).range([h2,0]);
-        // var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
-
+		
+		function adjustYDomain(){
+			var ymin = [];
+			var ymax = [];
+			for(var pos = 1; pos <= dataFull.length-1; pos++){
+				if(d3.select("."+dataFull[pos].name.charAt(0).toUpperCase()+dataFull[pos].name.slice(1)+"line").attr("visibility")=="visible")
+				{
+					ymin.push(d3.min(dataFull[pos].data));
+					ymax.push(d3.max(dataFull[pos].data));
+				}
+			}
+			if (ymin.length==0){return;}
+			ymin=d3.min(ymin);
+			ymax=d3.max(ymax);
+			if(ymin==ymax){ymax+=1;}
+			y.domain([ymin,ymax]);
+			y2.domain([ymin,ymax])
+			for (var pos = 1; pos <= 7; pos++) {
+				graph.select("#path"+pos).attr("d",line(dataFull[pos].data));
+				viewer.select("#vPath"+pos).attr("d",line2(dataFull[pos].data));
+				}
+			
+		}
         var line = d3.svg.line()
 					.defined(function(d) { return d!=null; }) //To remove null entries (will look like gaps in the line)
 					//.interpolate('cardinal')
@@ -254,6 +292,14 @@ function showGraphDT(dataFull, graphType) {
             .attr("transform", "translate(-25,0)")
             .call(yAxisLeft);
 
+	        var yAxisV = d3.svg.axis().scale(y2).ticks(4).orient("left");
+	        // Add the y-axis to the left
+	        viewer.append("svg:g")
+	            .attr("class", "y axis")
+	            .attr("transform", "translate(-25,0)")
+	            .call(yAxisLeft);
+
+
 		var colorMap = d3.scale.category10();
 		
 		function lineMouseover() {
@@ -262,8 +308,6 @@ function showGraphDT(dataFull, graphType) {
 		        .duration(100)
 		        .style("stroke-width", 5);
 			this.parentNode.appendChild(this);
-			console.log(this);
-			console.log(x.domain())
 			}
 		function lineMouseout() {
 		    d3.select(this)
@@ -276,6 +320,7 @@ function showGraphDT(dataFull, graphType) {
             graph.append("svg:path").attr("id", "path"+pos)
 			.attr("d", line(dataFull[pos].data))
 			.attr("data-legend",dataFull[pos].name.charAt(0).toUpperCase()+dataFull[pos].name.slice(1))
+			.attr("data-legend-pos",pos)
 			.attr("stroke",colorMap(dataFull[pos].name.charAt(0).toUpperCase()+dataFull[pos].name.slice(1)))
 			.attr("stroke-width",1.5)
 			.attr("fill","none")
@@ -286,7 +331,7 @@ function showGraphDT(dataFull, graphType) {
 			.attr("clip-path","url(#clip)");
 			console.log(dataFull[pos].data);
 			
-			viewer.append("svg:path")
+			viewer.append("svg:path").attr("id","vPath"+pos)
 			.attr("d", line2(dataFull[pos].data))
 			.attr("stroke",colorMap(dataFull[pos].name.charAt(0).toUpperCase()+dataFull[pos].name.slice(1)))
 			.attr("stroke-width",1.5)
@@ -306,7 +351,8 @@ function showGraphDT(dataFull, graphType) {
 		  .attr("class","legend")
 		  .attr("transform","translate("+(w+m[3])+",50)")
 		  .style("font-size","16px")
-		  .call(d3.legend);
+		  .call(d3.legend)
+  		  .on("click",adjustYDomain);
 
     	
 	}
