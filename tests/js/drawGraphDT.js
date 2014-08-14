@@ -216,7 +216,7 @@ function showGraphDT(dataFull, graphType) {
 			if(ymin==ymax){ymax+=1;}
 			y.domain([ymin,ymax]);
 			y2.domain([ymin,ymax])
-			for (var pos = 1; pos <= 7; pos++) {
+			for (var pos = 1; pos <= dataFull.length-1; pos++) {
 				graph.select("#path"+pos).attr("d",line(dataFull[pos].data));
 				viewer.select("#vPath"+pos).attr("d",line2(dataFull[pos].data));
 				}
@@ -268,7 +268,7 @@ function showGraphDT(dataFull, graphType) {
 		function brushed() {
 		  x.domain(brush.empty() ? x2.domain() : brush.extent());
 			graph.select(".x.axis").call(xAxis);
-			for (var pos = 1; pos <= 7; pos++) {
+			for (var pos = 1; pos <= dataFull.length-1; pos++) {
 			graph.select("#path"+pos).attr("d",line(dataFull[pos].data));
 			}
 		}
@@ -316,7 +316,7 @@ function showGraphDT(dataFull, graphType) {
 		        .style("stroke-width", 1.5);
 		}
 		
-        for (var pos = 1; pos <= 7; pos++) {
+        for (var pos = 1; pos <= dataFull.length-1; pos++) {
             graph.append("svg:path").attr("id", "path"+pos)
 			.attr("d", line(dataFull[pos].data))
 			.attr("data-legend",dataFull[pos].name.charAt(0).toUpperCase()+dataFull[pos].name.slice(1))
