@@ -62,7 +62,7 @@
                                 '<input id="responseId" placeholder="response ID" type="text"  class="inline"  value="3658">'+
                                 '<input id="submitRequestId" type="button"  class="inline"  value="Send Request" >'+
                                 '<div id="graph"></div></div>');
-                            $('#container').append('<div id="legend"></div><div id="graph"></div>');
+							$('#container').append('<div id="chart-options"></div>');
                             $('#container').append('<div id="infoVideo"></div>');
                             $('#container').append('<input id="stopCheckData" type="button" value="Stop check video status">');
                             $('#container').append('<div id="info"></div>');
