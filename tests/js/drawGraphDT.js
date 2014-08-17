@@ -66,6 +66,8 @@ function showGraphDT(dataFull, graphType) {
         var w = 1200 - m[1] - m[3]; // width
         var h = 400 - m[0] - m[2]; // height
         var data = dataFull[1].data;
+
+
 		function timetrans(timestamp){
 			return timestamp / 1000.0;
 			}
@@ -171,6 +173,18 @@ function showGraphDT(dataFull, graphType) {
         var h = 500 - m[0] - m[2];
  		var h2 = 500 - m2[0] - m2[2]; // height
 
+
+		var normalised = false;
+		var dataRanges=[];
+		
+		for (var pos = 1; pos <= dataFull.length-1; pos++){
+			dataRanges.push([d3.min(dataFull[pos].data),d3.max(dataFull[pos].data)]);
+		}
+		console.log("Data Ranges");
+		console.log(dataRanges);
+		
+
+		
         var data = dataFull[1].data;
 		
 		function timetrans(timestamp){
@@ -222,6 +236,9 @@ function showGraphDT(dataFull, graphType) {
 				}
 			
 		}
+		
+
+		
         var line = d3.svg.line()
 					.defined(function(d) { return d!=null; }) //To remove null entries (will look like gaps in the line)
 					//.interpolate('cardinal')
@@ -353,6 +370,38 @@ function showGraphDT(dataFull, graphType) {
 		  .style("font-size","16px")
 		  .call(d3.legend)
   		  .on("click",adjustYDomain);
+
+		function normalise(){
+			for (var pos = 1; pos <= dataFull.length-1; pos++){
+				dataFull[pos].data=dataFull[pos].data.map(function (d){
+					if(d==null){return null;}
+					return ((d-dataRanges[pos-1][0])/(dataRanges[pos-1][1]-dataRanges[pos-1][0]));
+				});
+			}
+			adjustYDomain();
+			normalised=true;
+			d3.select("#normButton").attr("value","unnormalise");
+		}
+
+		function unnormalise(){
+			for (var pos = 1; pos <= dataFull.length-1; pos++){
+				dataFull[pos].data=dataFull[pos].data.map(function (d){
+					if(d==null){return null;}
+					return ((d)*(dataRanges[pos-1][1]-dataRanges[pos-1][0])+dataRanges[pos-1][0]);
+				});
+			}
+			adjustYDomain();
+			normalised=false;
+			d3.select("#normButton").attr("value","normalise");
+		}
+
+		d3.select("#chart-options").append("input")
+			.attr("id","normButton")
+			.attr("type","button")
+			.attr("value","normalise")
+			.on("click", function () {
+				normalised ? unnormalise() : normalise();
+			});
 
     	
 	}
