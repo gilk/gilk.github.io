@@ -103,7 +103,7 @@ function normalise(arr){
 }
 
 
-function showGraph(dataFull, graphType, initState) {
+function showGraph(dataFull, graphType, initState, divId) {
 
 	var positiveMood = [];
 	var negativeMood = [];
@@ -236,7 +236,7 @@ function showGraph(dataFull, graphType, initState) {
 
 		d3.select("svg").remove();
 		
-		var svgContainer = d3.select("#graph").append("svg:svg")
+		var svgContainer = d3.select("#"+divId).append("svg:svg")
 			.attr("width", w + m[1] + m[3])
 			.attr("height", h + m[0] + m[2]);
         
