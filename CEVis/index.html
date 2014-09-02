@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Crowd Emotion Visualisation Example</title>
+	<meta name="author" content="Gil Kogan">
+	<!-- Date: 2014-08-19 -->
+	<link rel="stylesheet" type="text/css" href="./CSS/base.css"/>
+	
+</head>
+<body>
+
+	<script src="./src/jquery.min.js"></script>
+
+	<!-- For the chart drawing functions -->
+	<script src="./src/d3.min.js"></script>
+	<script src="./js/CEVis.js"></script>
+
+	<!-- For the javascript client -->
+	<script src="./src/sha256.js"></script>
+	<script src="./src/enc-base64-min.js"></script>
+	<script src="./src/store.js"></script>
+	<script src="./src/CEClient.js"></script>
+	<script src="./src/jquery.min.js"></script>
+	
+	<!-- To generate page content -->
+	<script src="./js/CEVisExample.js"></script>
+
+<div class="content">
+	<div id="intro">
+		
+		<h1> Crowd Emotion Dashboard visualtions </h1>
+	
+		<p> There are many ways you might like to view and manipulate your data, below is an example</p>
+		
+	</div>
+</div>
+<div id="container"></div>
+
+<div class="content">
+	
+	<p> You can see the example by logging in and selecting a valid response ID.</p>
+	
+	<p> This example is made of four simple components.</p>
+	
+	<ol>
+	<li>index.html</li>
+	<li>CEVisExample.js</li>
+	<li>CEVis.js</li>
+	<li>base.css</li>
+	</ol>
+	
+	<p> If you are familiar with any web development you should not have any problems understanding these components and their roles. There are some other dependencies which you can see in the source of index.html at the start of the body section.</p>
+	
+	<p> The graph drawing functions are all within the file CEVis.js but the other three are need to provide the data and to create this page. CEVisExample.js is an example of how to frame the plot with a login page and a data call method provided by our javaScript API client documented <a href="https://github.com/CrowdEmotion/crowdemotion-api-js">here</a>. The main function to look at is showGraph which takes the data in a particular form and then plots it as you can see above.</p>
+	
+	<p> The data must be passed to showGraph as an array of JSON objects with the from;</p>
+	
+	<p> data = </br>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [{name:"timestamp",data:[0,...]}, </br>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {name:"metricId1",data:[...]}, </br>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {name:"metricId1",data:[...]}...]
+	</p>
+	
+	<p> This is the standard response from the provided API's making them very easy to work with.</p>
+	
+	<p>Lines 46 to 76 of base.css are also needed to make the graph look the way it does but the rest of all the files are unique to this implementation, so it should be very easy for you to put these data visualisations in your own tools.</p>
+	
+</div>
+
+</body>
+</html>
