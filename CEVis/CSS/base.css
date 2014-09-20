@@ -10,7 +10,7 @@
 	box-shadow:0px 0px 14px white;
 }
 #graph{
-	float:center;
+	width:1200px;
 }
 #logout{
     float: right;

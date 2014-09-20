@@ -73,7 +73,7 @@
 			var metricIds = $('input:checkbox:checked.metricCheck').map(function () {
 				return this.value;
 			}).get();
-			showGraph(apiData,"line",metricIds);
+			showGraph(apiData,"line",metricIds,"graph");
 			$('#form_graph').slideDown('slow');
 		};
 		
