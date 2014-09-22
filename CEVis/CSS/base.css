@@ -10,7 +10,12 @@
 	box-shadow:0px 0px 14px white;
 }
 #graph{
-	width:1200px;
+	width:100%;
+	min-width:900px;
+}
+#form_graph{
+	width:100%;
+	margin:auto;
 }
 #logout{
     float: right;
@@ -19,11 +24,11 @@
     right: 0;
 }
 #container{
-	width:70%;
+	width:100%;
 	margin:auto;
-	min-width:1500px;
+/*	min-width:1500px;
 	margin-top:15px;
-	margin-left:15px;
+	margin-left:15px;*/
 	position:center;
 }
 input[type="text"].inline, input[type="button"].inline, input[type="password"].inline, input[type="checkbox"].inline{

@@ -26,7 +26,7 @@
 					if(res==true){
 						$('#form_login').slideUp('slow', function(){
 						$('#container').html(
-							'<div id="form_graph" style="display: none">'+
+							'<div id="form_graph" style="display: inline">'+
 							'<input id="responseId" placeholder="response ID" type="text"  class="inline"  value="3658">'+
 							'<input id="checkHappy" type="checkbox"  class="inline, metricCheck"  value="3" checked="checked"> Happy'+
 							'<input id="checkSurprise" type="checkbox"  class="inline, metricCheck"  value="4" checked="checked"> Surprise'+
@@ -75,6 +75,12 @@
 			}).get();
 			showGraph(apiData,"line",metricIds,"graph");
 			$('#form_graph').slideDown('slow');
+			window.addEventListener('resize', function () {
+				d3.select("#graph").html("");
+				console.log(parseInt(d3.select("#graph").style("width").substring(0,d3.select("#graph").style("width").length-2)));
+			    showGraph(apiData,"line",metricIds,"graph");
+		//		console.log(parseInt(d3.select("#graph").style("width").substring(0,d3.select("#graph").style("width").length-2)));
+			});
 		};
 		
 });

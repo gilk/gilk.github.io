@@ -144,10 +144,11 @@ function showGraph(dataFull, graphType, initState, divId) {
 	if (graphType == "line") {
 		var m = [20, 150, 100, 20];
 		var m2 =[430, 150, 20, 20]; // margins
-//        var w = d3.select('#'+divId).clientWidth - m[1] - m[3]; // width
-		var w = 1200 - m[1] - m[3];
-		console.log(d3.select('#'+divId));
-		console.log("graph width");
+       // var w = d3.select('#'+divId).style("width") - m[1] - m[3]; // width
+	//	var w = 1200 - m[1] - m[3];
+		var w = parseInt(d3.select('#'+divId).style("width").substring(0,d3.select('#'+divId).style("width").length-2)) - m[1] - m[3];
+//		console.log(parseInt(d3.select('#'+divId).style("width").substring(0,d3.select('#'+divId).style("width").length-2))-400);
+//		console.log("graph width");
         var h = 500 - m[0] - m[2];
  		var h2 = 500 - m2[0] - m2[2]; // height
 
@@ -361,9 +362,7 @@ function showGraph(dataFull, graphType, initState, divId) {
 //	         .attr('height', parent.clientHeight);
 //	}
 //	var that = this;
-//	window.addEventListener('resize', function (e) {
-//	    that.setSize(el);
-//	});
+
 
 }
 
