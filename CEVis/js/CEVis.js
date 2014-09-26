@@ -142,15 +142,26 @@ function showGraph(dataFull, graphType, initState, divId) {
 
 
 	if (graphType == "line") {
-		var m = [20, 150, 100, 20];
-		var m2 =[430, 150, 20, 20]; // margins
+		
+		var init_H = parseInt(d3.select('#'+divId).style("height").substring(0,d3.select('#'+divId).style("width").length-2)) || 500;
+		init_H = init_H>250 ? init_H : 250;
+		
+		console.log("height");
+		console.log(init_H);
+//		var m = [20, 150, 100, 20];
+//		var m2 =[430, 150, 20, 20]; // margins
+
+		var m = [init_H*(20.0/500.0), 150, init_H*(100.0/500.0), 20];
+		var m2 =[init_H*(430.0/500.0), 150, init_H*(20.0/500.0), 20]; // margins
+		
+		console.log()
+		
        // var w = d3.select('#'+divId).style("width") - m[1] - m[3]; // width
 	//	var w = 1200 - m[1] - m[3];
 		var w = parseInt(d3.select('#'+divId).style("width").substring(0,d3.select('#'+divId).style("width").length-2)) - m[1] - m[3];
-//		console.log(parseInt(d3.select('#'+divId).style("width").substring(0,d3.select('#'+divId).style("width").length-2))-400);
-//		console.log("graph width");
-        var h = 500 - m[0] - m[2];
- 		var h2 = 500 - m2[0] - m2[2]; // height
+		
+        var h = init_H - m[0] - m[2];
+ 		var h2 = init_H - m2[0] - m2[2]; // height
 
 		var normalised = false;
 		var dataRanges=[];
