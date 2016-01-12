@@ -170,7 +170,7 @@ d3.csv("10.csv", function(error, data) {
 
 	function updateChart(dp){
 		data = dp ? dp : window.data;  
-		console.log(data)
+		//console.log(data)
 		xScale.domain([d3.min(data, xValue)-0.01, d3.max(data, xValue)+0.01]);
 		svg.selectAll(".dot").remove();
 		svg.selectAll(".dot")
