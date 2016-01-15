@@ -200,6 +200,7 @@ d3.csv("10.csv", function(error, data) {
 	d3.select("#Happyslide").on("input", function() {
 	//  update(+this.value);
 	  weighting.Happiness=this.value;
+	  d3.select('#happy-value').text(this.value);
 	  //console.log(weighting);
 	  updateChart();
 	});
@@ -207,12 +208,14 @@ d3.csv("10.csv", function(error, data) {
 	d3.select("#Surpriseslide").on("input", function() {
 	//  update(+this.value);
 	  weighting.Surprise=this.value;
+	  d3.select('#surprise-value').text(this.value);
 	  //console.log(weighting);
 	 updateChart();
 	});
 	d3.select("#Puzzleslide").on("input", function() {
 	//  update(+this.value);
-	  weighting.Surprise=this.value;
+	  weighting.Puzzlement=this.value;
+	  d3.select('#puzzlement-value').text(this.value);
 	  //console.log(weighting);
 	 updateChart();
 	});
@@ -234,11 +237,12 @@ d3.csv("10.csv", function(error, data) {
 });
 
 </script>
-Happy
+
+Happy = <span id="happy-value">1.0</span>
 <input type="range" min="-5.0" max="5.0" id="Happyslide" step="0.1" value="1.0">
-Surprise
+Surprise = <span id="surprise-value">1.0</span>
 <input type="range" min="-5.0" max="5.0" id="Surpriseslide" step="0.1" value="1.0">
-Puzzlement
+Puzzlement = <span id="puzzlement-value">1.0</span>
 <input type="range" min="-5.0" max="5.0" id="Puzzleslide" step="0.1" value="1.0" text="1.0">
 </body>
 </html>
